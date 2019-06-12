@@ -7,7 +7,7 @@ package tools;
 
 /**
  *
- * @author KHAIRUL MUNA
+ * @author Arif Fridasari
  */
 public class LeaveRequest {
 
