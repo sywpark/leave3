@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Arif Fridasari
+ * @author KHAIRUL MUNA
  */
 @Entity
 @Table(name = "STATUS")
@@ -50,7 +50,7 @@ public class Status implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date statusDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "status", fetch = FetchType.LAZY)
-    private List<LeaveRequest> leaveRequestList;
+    private List<LeaveRequestStatus> leaveRequestStatusList;
 
     public Status() {
     }
@@ -90,12 +90,12 @@ public class Status implements Serializable {
     }
 
     @XmlTransient
-    public List<LeaveRequest> getLeaveRequestList() {
-        return leaveRequestList;
+    public List<LeaveRequestStatus> getLeaveRequestStatusList() {
+        return leaveRequestStatusList;
     }
 
-    public void setLeaveRequestList(List<LeaveRequest> leaveRequestList) {
-        this.leaveRequestList = leaveRequestList;
+    public void setLeaveRequestStatusList(List<LeaveRequestStatus> leaveRequestStatusList) {
+        this.leaveRequestStatusList = leaveRequestStatusList;
     }
 
     @Override

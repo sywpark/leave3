@@ -7,7 +7,9 @@ package models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,15 +18,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Arif Fridasari
+ * @author KHAIRUL MUNA
  */
 @Entity
 @Table(name = "LEAVE_REQUESTS")
@@ -35,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "LeaveRequest.findByStartDate", query = "SELECT l FROM LeaveRequest l WHERE l.startDate = :startDate")
     , @NamedQuery(name = "LeaveRequest.findByEndDate", query = "SELECT l FROM LeaveRequest l WHERE l.endDate = :endDate")
     , @NamedQuery(name = "LeaveRequest.findByDetail", query = "SELECT l FROM LeaveRequest l WHERE l.detail = :detail")
-    , @NamedQuery(name = "LeaveRequest.findByEmployee", query = "SELECT l FROM LeaveRequest l WHERE l.employee = :employee")
+    , @NamedQuery(name = "LeaveRequest.findByRequester", query = "SELECT l FROM LeaveRequest l WHERE l.requester = :requester")
     , @NamedQuery(name = "LeaveRequest.findByManager", query = "SELECT l FROM LeaveRequest l WHERE l.manager = :manager")})
 public class LeaveRequest implements Serializable {
 
@@ -56,20 +60,22 @@ public class LeaveRequest implements Serializable {
     @Column(name = "DETAIL")
     private String detail;
     @Basic(optional = false)
-    @Column(name = "EMPLOYEE")
-    private long employee;
+    @Column(name = "REQUESTER")
+    private long requester;
     @Basic(optional = false)
     @Column(name = "MANAGER")
     private long manager;
     @JoinColumn(name = "ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @OneToOne(optional = false, fetch = FetchType.LAZY)
-    private Employee employee1;
+    private Employee employee;
+    @JoinColumn(name = "STATUS", referencedColumnName = "ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private LeaveRequestStatus status;
     @JoinColumn(name = "TYPE", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private LeaveType type;
-    @JoinColumn(name = "STATUS", referencedColumnName = "ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Status status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leaveRequest", fetch = FetchType.LAZY)
+    private List<LeaveRequestStatus> leaveRequestStatusList;
 
     public LeaveRequest() {
     }
@@ -78,12 +84,12 @@ public class LeaveRequest implements Serializable {
         this.id = id;
     }
 
-    public LeaveRequest(Long id, Date startDate, Date endDate, String detail, long employee, long manager) {
+    public LeaveRequest(Long id, Date startDate, Date endDate, String detail, long requester, long manager) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.detail = detail;
-        this.employee = employee;
+        this.requester = requester;
         this.manager = manager;
     }
 
@@ -119,12 +125,12 @@ public class LeaveRequest implements Serializable {
         this.detail = detail;
     }
 
-    public long getEmployee() {
-        return employee;
+    public long getRequester() {
+        return requester;
     }
 
-    public void setEmployee(long employee) {
-        this.employee = employee;
+    public void setRequester(long requester) {
+        this.requester = requester;
     }
 
     public long getManager() {
@@ -135,12 +141,20 @@ public class LeaveRequest implements Serializable {
         this.manager = manager;
     }
 
-    public Employee getEmployee1() {
-        return employee1;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployee1(Employee employee1) {
-        this.employee1 = employee1;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public LeaveRequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LeaveRequestStatus status) {
+        this.status = status;
     }
 
     public LeaveType getType() {
@@ -151,12 +165,13 @@ public class LeaveRequest implements Serializable {
         this.type = type;
     }
 
-    public Status getStatus() {
-        return status;
+    @XmlTransient
+    public List<LeaveRequestStatus> getLeaveRequestStatusList() {
+        return leaveRequestStatusList;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setLeaveRequestStatusList(List<LeaveRequestStatus> leaveRequestStatusList) {
+        this.leaveRequestStatusList = leaveRequestStatusList;
     }
 
     @Override
