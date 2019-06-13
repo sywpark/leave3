@@ -7,8 +7,8 @@ package controllers;
 
 /**
  *
- * @author Arif Fridasari
+ * @author HP
  */
-public class AccountControllers {
+public class LeaveType {
     
 }

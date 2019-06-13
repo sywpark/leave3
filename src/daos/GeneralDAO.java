@@ -113,24 +113,5 @@ public class GeneralDAO<T> implements IGeneralDAO<T> {
         return location;
     }
 
-    @Override
-    public boolean register(T object) {
-        boolean result = false;
-        session = this.factory.openSession();
-        transaction = session.beginTransaction();
-        try {
-            session.save(object);
-            transaction.commit();
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            session.close();
-        }
-
-        return result;
-    }
+    
 }

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package icontrollers;
+package controllers;
 
 /**
  *
- * @author Arif Fridasari
+ * @author  Arif Fridasari
  */
-public interface IAnnualLeaveController {
+public class EmployeeController {
+    
 }

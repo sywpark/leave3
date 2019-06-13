@@ -9,6 +9,6 @@ package controllers;
  *
  * @author HP
  */
-public class EmployeeJobControllers {
+public class JobController {
     
 }

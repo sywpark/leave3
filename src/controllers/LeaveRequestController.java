@@ -9,6 +9,6 @@ package controllers;
  *
  * @author HP
  */
-public class LeaveRequestControllers {
+public class LeaveRequestController {
     
 }
